@@ -13,4 +13,5 @@ public class Arena
 	private String timeZone; // razmisliti o vremenskim zonama
 	private String name;
 	private Integer capacity;
+	private boolean active;
 }
