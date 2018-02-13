@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import lombok.extern.slf4j.Slf4j;
 import rs.enetel.basketballleague.common.ResourceHelper;
 import rs.enetel.basketballleague.dao.Arena;
 import rs.enetel.basketballleague.rowmapper.ArenaRowMapper;
 import rs.enetel.basketballleague.searchcrits.ArenaSearchCriteria;
 
 @Repository
+@Slf4j
 public class ArenaRepositoryImpl implements ArenaRepository
 {
 
@@ -29,6 +31,8 @@ public class ArenaRepositoryImpl implements ArenaRepository
 	public List<Arena> all() throws Exception
 	{
 		String sql = ResourceHelper.getResourceText("/sql/arenas/all.sql");
+		
+		log.debug("In the arena repository all() method!");
 		
 		return jdbcTemplate.query(sql, new ArenaRowMapper());
 	}
