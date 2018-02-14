@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,7 +48,7 @@ public class ArenaControllerTest
 	}
 	
 	@Test
-	public void testMockMvc() throws Exception {
+	public void showAllTestMockMvc() throws Exception {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(arenaController).build();
 		
 		mockMvc.perform(get("/arenas"))
@@ -78,5 +79,19 @@ public class ArenaControllerTest
 		verify(model, times(1)).addAttribute(eq("arenas"), argumentCaptor.capture());
 		List<Arena> listInController = argumentCaptor.getValue();
 		assertEquals(2, listInController.size());
+	}
+	
+	@Test
+	public void showTestMockMvc() throws Exception {
+		Arena arena = new Arena();
+		arena.setId(1);
+		
+		when(arenaRepository.getById(anyInt())).thenReturn(arena);
+		
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(arenaController).build();
+		
+		mockMvc.perform(get("/arenas/show/1"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("arenas/show"));
 	}
 }

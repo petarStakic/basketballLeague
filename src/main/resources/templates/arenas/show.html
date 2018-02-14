@@ -15,8 +15,7 @@
 <link rel="stylesheet" type="text/css" href="../../static/css/style.css"
 	th:href="@{/static/css/style.css}">
 <meta charset="UTF-8" />
-<script th:src="@{/static/js/script.js}"></script>
-<title>All Arenas</title>
+<title></title>
 </head>
 <body>
 	<div class="container-fluid" style="">
@@ -24,26 +23,40 @@
 			<div class="col-md-6 offset-md-3">
 				<div class="card bg-light text-dark">
 					<div class="card-header text-center">
-						<h1 class="card-title">Arenas Table</h1>
+						<h1 class="card-title" th:text="${arena.name}">Arena's Name</h1>
 					</div>
 					<div class="card-body">
-						<div class="table-responsive" th:if="${not #lists.isEmpty(arenas)}">
-							<table class="table table-hover">
-								<thead class="thead-dark">
-									<tr>
-										<th>Country</th>
-										<th>City</th>
-										<th>Name</th>
-										<th>Capacity</th>
-									</tr>
-								</thead>
-								<tr th:each="arena : ${arenas}" class="clickableRow" th:onclick="'javascript:rowClicked(\'arenas\', \'' + ${arena.id} + '\');'">
-									<td th:text="${arena.country}"></td>
-									<td th:text="${arena.city}"></td>
-									<td th:text="${arena.name}"></td>
-									<td th:text="${arena.capacity}"></td>
-								</tr>
-							</table>
+						<div class="row">
+							<div class="col-md-3 shortProps">
+								<p>Country:</p>
+							</div>
+							<div class="col-md-9">
+								<p th:text="${arena.country}"></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 shortProps">
+								<p>City:</p>
+							</div>
+							<div class="col-md-9">
+								<p th:text="${arena.city}"></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 shortProps">
+								<p>Time Zone:</p>
+							</div>
+							<div class="col-md-9">
+								<p th:text="${arena.timeZone}"></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 shortProps">
+								<p>Capacity:</p>
+							</div>
+							<div class="col-md-9">
+								<p th:text="${arena.capacity}"></p>
+							</div>
 						</div>
 					</div>
 				</div>

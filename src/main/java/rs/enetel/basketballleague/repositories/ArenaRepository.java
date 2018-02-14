@@ -9,7 +9,7 @@ public interface ArenaRepository
 {
 	Arena add(Arena arena) throws Exception;
 
-	List<Arena> all() throws Exception;
+	List<Arena> all();
 
 	List<Arena> search(ArenaSearchCriteria criteria) throws Exception; //QUESTION: da li je ArenaSearchCriteria previse specificno za interface?
 
@@ -18,4 +18,7 @@ public interface ArenaRepository
 	Arena edit(Arena arena) throws Exception;
 
 	Arena remove(Arena arena) throws Exception;
+
+	Arena getById(int id);
+
 }

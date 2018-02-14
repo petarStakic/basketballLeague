@@ -12,8 +12,10 @@ public class IntegerResultSetExtractor implements ResultSetExtractor<Integer>
 	@Override
 	public Integer extractData(ResultSet result) throws SQLException, DataAccessException
 	{
-		if(result.next())
+		if (result.next())
+		{
 			return result.getInt(1);
+		}
 		return null;
 	}
 

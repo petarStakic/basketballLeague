@@ -6,3 +6,7 @@ th, td {
 table {
 	border-collapse: collapse;
 }
+
+.clickableRow {
+	cursor:pointer;
+}

@@ -19,7 +19,7 @@ public class ArenaRepositoryImpl implements ArenaRepository
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	@Override
 	public Arena add(Arena arena) throws Exception
 	{
@@ -28,12 +28,23 @@ public class ArenaRepositoryImpl implements ArenaRepository
 	}
 
 	@Override
-	public List<Arena> all() throws Exception
+	public Arena getById(int id)
+	{
+		String sql = ResourceHelper.getResourceText("/sql/arenas/by_id.sql");
+		
+		log.debug("In the arena repository getbyId() method");
+		
+		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new ArenaRowMapper());
+		
+	}
+
+	@Override
+	public List<Arena> all()
 	{
 		String sql = ResourceHelper.getResourceText("/sql/arenas/all.sql");
-		
+
 		log.debug("In the arena repository all() method!");
-		
+
 		return jdbcTemplate.query(sql, new ArenaRowMapper());
 	}
 
@@ -64,5 +75,5 @@ public class ArenaRepositoryImpl implements ArenaRepository
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
