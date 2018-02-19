@@ -1,0 +1,1 @@
+SELECT arenas_s.nextval FROM dual
