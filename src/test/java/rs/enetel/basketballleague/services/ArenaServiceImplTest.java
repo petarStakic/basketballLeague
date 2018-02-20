@@ -46,42 +46,42 @@ public class ArenaServiceImplTest
 	}
 
 	@Test
-	public void addNew() throws Exception
+	public void addNewTest() throws Exception
 	{
 		// Given
 		ArenaCommand arenaCmd = new ArenaCommand();
 		ArenaCommand arenaCmdOut = new ArenaCommand();
-		
+
 		arenaCmd.setName(TEST_NAME);
 		arenaCmd.setCity(TEST_CITY);
 		arenaCmd.setCountry(TEST_COUNTRY);
-		
-		
+
 		Arena arena = new Arena();
 		Arena arenaInserted = new Arena();
-		
+
 		arena.setName(TEST_NAME);
 		arena.setCity(TEST_CITY);
 		arena.setCountry(TEST_COUNTRY);
-		
+
 		arenaInserted.setName(TEST_NAME);
 		arenaInserted.setCity(TEST_CITY);
 		arenaInserted.setCountry(TEST_COUNTRY);
 		arenaInserted.setId(TEST_ID);
-		
+		arenaInserted.setActive(true);
+
 		arenaCmdOut.setName(TEST_NAME);
 		arenaCmdOut.setCity(TEST_CITY);
 		arenaCmdOut.setCountry(TEST_COUNTRY);
 		arenaCmdOut.setId(TEST_ID);
-		
+
 		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
 		when(arenaRepository.searchFor(arena.getName(), arena.getCity(), arena.getCountry())).thenReturn(null);
 		when(arenaRepository.add(arena)).thenReturn(arenaInserted);
 		when(arenaToArenaCommand.convert(arenaInserted)).thenReturn(arenaCmdOut);
-		
+
 		// When
 		ArenaCommand arenaCmdReturned = arenaService.addNew(arenaCmd);
-		
+
 		//Then
 		assertEquals(TEST_NAME, arenaCmdReturned.getName());
 		assertEquals(TEST_CITY, arenaCmdReturned.getCity());
@@ -90,17 +90,18 @@ public class ArenaServiceImplTest
 		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
 		verify(arenaRepository, times(1)).searchFor(arena.getName(), arena.getCity(), arena.getCountry());
 		verify(arenaRepository, times(1)).add(arena);
+		verify(arenaRepository, times(0)).edit(any());
 		verify(arenaToArenaCommand, times(1)).convert(arenaInserted);
 	}
 
 	@Test
-	public void addNewNull() throws Exception
+	public void addNewNullTest() throws Exception
 	{
 		// Given
 		ArenaCommand arenaCmdNull = null;
 
 		when(arenaCommandToArena.convert(null)).thenReturn(null);
-		
+
 		// When
 		ArenaCommand arenaCmdReturned = arenaService.addNew(arenaCmdNull);
 
@@ -109,42 +110,44 @@ public class ArenaServiceImplTest
 		verify(arenaCommandToArena, times(1)).convert(arenaCmdNull);
 		verify(arenaRepository, times(0)).searchFor(anyString(), anyString(), anyString());
 		verify(arenaRepository, times(0)).add(any());
+		verify(arenaRepository, times(0)).edit(any());
 		verify(arenaToArenaCommand, times(0)).convert(any());
 	}
-	
+
 	@Test
-	public void addNewExisting() throws Exception
+	public void addNewExistingTest() throws Exception
 	{
 		// Given
 		ArenaCommand arenaCmd = new ArenaCommand();
 		arenaCmd.setName(TEST_NAME);
 		arenaCmd.setCity(TEST_CITY);
 		arenaCmd.setCountry(TEST_COUNTRY);
-		
+
 		ArenaCommand arenaCmdOut = new ArenaCommand();
 		arenaCmdOut.setName(TEST_NAME);
 		arenaCmdOut.setCity(TEST_CITY);
 		arenaCmdOut.setCountry(TEST_COUNTRY);
 		arenaCmdOut.setId(TEST_ID);
-		
+
 		Arena arena = new Arena();
 		arena.setName(TEST_NAME);
 		arena.setCity(TEST_CITY);
 		arena.setCountry(TEST_COUNTRY);
-		
+
 		Arena returnArena = new Arena();
 		returnArena.setName(TEST_NAME);
 		returnArena.setCity(TEST_CITY);
 		returnArena.setCountry(TEST_COUNTRY);
 		returnArena.setId(TEST_ID);
-		
+		returnArena.setActive(true);
+
 		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
 		when(arenaRepository.searchFor(arena.getName(), arena.getCity(), arena.getCountry())).thenReturn(returnArena);
 		when(arenaToArenaCommand.convert(returnArena)).thenReturn(arenaCmdOut);
-		
+
 		// When
 		ArenaCommand arenaCmdReturned = arenaService.addNew(arenaCmd);
-		
+
 		// Then
 		assertEquals(TEST_NAME, arenaCmdReturned.getName());
 		assertEquals(TEST_CITY, arenaCmdReturned.getCity());
@@ -153,6 +156,99 @@ public class ArenaServiceImplTest
 		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
 		verify(arenaRepository, times(1)).searchFor(arena.getName(), arena.getCity(), arena.getCountry());
 		verify(arenaRepository, times(0)).add(any());
+		verify(arenaRepository, times(0)).edit(any());
 		verify(arenaToArenaCommand, times(1)).convert(returnArena);
+	}
+
+	@Test
+	public void addNewExistingButDeletedTest() throws Exception
+	{
+		// Given
+		ArenaCommand arenaCmd = new ArenaCommand();
+		arenaCmd.setName(TEST_NAME);
+		arenaCmd.setCity(TEST_CITY);
+		arenaCmd.setCountry(TEST_COUNTRY);
+
+		ArenaCommand arenaCmdOut = new ArenaCommand();
+		arenaCmdOut.setName(TEST_NAME);
+		arenaCmdOut.setCity(TEST_CITY);
+		arenaCmdOut.setCountry(TEST_COUNTRY);
+		arenaCmdOut.setId(TEST_ID);
+		arenaCmdOut.setActive(true);
+
+		Arena arena = new Arena();
+		arena.setName(TEST_NAME);
+		arena.setCity(TEST_CITY);
+		arena.setCountry(TEST_COUNTRY);
+
+		Arena returnArena = new Arena();
+		returnArena.setName(TEST_NAME);
+		returnArena.setCity(TEST_CITY);
+		returnArena.setCountry(TEST_COUNTRY);
+		returnArena.setId(TEST_ID);
+		returnArena.setActive(false);
+
+		Arena editedArena = new Arena();
+		editedArena.setName(TEST_NAME);
+		editedArena.setCity(TEST_CITY);
+		editedArena.setCountry(TEST_COUNTRY);
+		editedArena.setId(TEST_ID);
+		editedArena.setActive(true);
+
+		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
+		when(arenaRepository.searchFor(arena.getName(), arena.getCity(), arena.getCountry())).thenReturn(returnArena);
+		when(arenaRepository.edit(returnArena)).thenReturn(editedArena);
+		when(arenaToArenaCommand.convert(returnArena)).thenReturn(arenaCmdOut);
+
+		// When
+		ArenaCommand arenaCmdReturned = arenaService.addNew(arenaCmd);
+
+		// Then
+		assertEquals(TEST_NAME, arenaCmdReturned.getName());
+		assertEquals(TEST_CITY, arenaCmdReturned.getCity());
+		assertEquals(TEST_CITY, arenaCmdReturned.getCity());
+		assertEquals(TEST_ID, arenaCmdReturned.getId());
+		assertEquals(true, arenaCmdReturned.getActive());
+		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
+		verify(arenaRepository, times(1)).searchFor(arena.getName(), arena.getCity(), arena.getCountry());
+		verify(arenaRepository, times(0)).add(any());
+		verify(arenaRepository, times(1)).edit(returnArena);
+		verify(arenaToArenaCommand, times(1)).convert(returnArena);
+
+	}
+
+	@Test
+	public void deactivateNullTest() throws Exception
+	{
+		// Given
+		ArenaCommand arenaCmd = null;
+		Arena arena = null;
+
+		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
+
+		// When
+		ArenaCommand deactivatedArena = arenaService.deactivate(arenaCmd);
+
+		// then
+		assertNull(deactivatedArena);
+		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
+		verify(arenaRepository, times(0)).edit(any());
+	}
+
+	@Test
+	public void deactivateTest() throws Exception
+	{
+		// Given
+		ArenaCommand arenaCmd = new ArenaCommand();
+		arenaCmd.setName(TEST_NAME);
+		arenaCmd.setCity(TEST_CITY);
+		arenaCmd.setCountry(TEST_COUNTRY);
+		arenaCmd.setActive(true);
+		
+		Arena arena = new Arena();
+		arena.setName(TEST_NAME);
+		arena.setCity(TEST_CITY);
+		arena.setCountry(TEST_COUNTRY);
+		arena.setActive(true);
 	}
 }

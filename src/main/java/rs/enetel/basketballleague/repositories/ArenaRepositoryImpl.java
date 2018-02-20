@@ -36,7 +36,7 @@ public class ArenaRepositoryImpl implements ArenaRepository
 		int id = jdbcTemplate.query(nextvalSql, new IntegerResultSetExtractor());
 		arena.setId(id);
 		arena.setActive(true);
-		
+
 		int rowsAffected = jdbcTemplate.update(insertSql, new Object[] { id, arena.getCountry(), arena.getCity(),
 				arena.getTimeZone(), arena.getName(), arena.getCapacity() });
 
@@ -89,8 +89,22 @@ public class ArenaRepositoryImpl implements ArenaRepository
 	@Override
 	public Arena edit(Arena arena) throws Exception
 	{
-		// TODO Auto-generated method stub
-		return null;
+		String sql = ResourceHelper.getResourceText("/sql/arenas/edit.sql");
+
+		log.debug("In the arena repository's edit(arena) method!");
+
+		int activeInt = arena.isActive() ? 1 : 0;
+
+		int rowsAffected = jdbcTemplate.update(sql, new Object[] { arena.getCountry(), arena.getCity(),
+				arena.getTimeZone(), arena.getName(), arena.getCapacity(), activeInt, arena.getId() });
+
+		if (rowsAffected != 1)
+		{
+			log.debug("Error updating an arena. Rows affected: " + rowsAffected + " instead of 1.");
+			throw new Exception("Number of rows affected is not equal to one!");
+		}
+
+		return arena;
 	}
 
 	@Override

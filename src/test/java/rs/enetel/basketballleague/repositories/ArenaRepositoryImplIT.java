@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import rs.enetel.basketballleague.dao.Arena;
+import rs.enetel.basketballleague.printers.ArenaPrintHelper;
 import rs.enetel.basketballleague.rsextractors.IntegerResultSetExtractor;
 
 // TODO: pitanje: kako unit-testirati metode koje koriste JdbcTemplate da komuniciraju sa bazom 
