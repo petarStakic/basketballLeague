@@ -18,6 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 public class ArenaServiceImplTest
 {
@@ -250,17 +251,17 @@ public class ArenaServiceImplTest
 		arena.setCity(TEST_CITY);
 		arena.setCountry(TEST_COUNTRY);
 		arena.setActive(true);
-		
+
 		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
-		
+
 		// When
 		ArenaCommand arenaCmdOut = arenaService.deactivate(arenaCmd);
-		
+
 		// Then
 		assertEquals(false, arenaCmdOut.getActive());
 		assertEquals(false, arena.isActive());
 		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
-		verify(arenaRepository, times(1)).edit(arena);	
+		verify(arenaRepository, times(1)).edit(arena);
 	}
 
 	@Test
@@ -269,19 +270,19 @@ public class ArenaServiceImplTest
 		// Given
 		ArenaCommand arenaCmdNull = null;
 		Arena arenaNull = null;
-		
+
 		when(arenaCommandToArena.convert(arenaCmdNull)).thenReturn(arenaNull);
-		
+
 		// When
 		ArenaCommand arenaCmdOut = arenaService.editExistng(arenaCmdNull);
-		
+
 		// Then
 		assertNull(arenaCmdOut);
 		verify(arenaCommandToArena, times(1)).convert(arenaCmdNull);
 		verify(arenaRepository, times(0)).edit(any());
 		verify(arenaToArenaCommand, times(1)).convert(any());
 	}
-	
+
 	@Test
 	public void editExistingTest() throws Exception
 	{
@@ -290,19 +291,19 @@ public class ArenaServiceImplTest
 		arenaCmd.setName(TEST_NAME);
 		arenaCmd.setCity(TEST_CITY);
 		arenaCmd.setCountry(TEST_COUNTRY);
-		
+
 		Arena arena = new Arena();
 		arena.setName(TEST_NAME);
 		arena.setCity(TEST_CITY);
 		arena.setCountry(TEST_COUNTRY);
-		
+
 		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
 		when(arenaRepository.edit(arena)).thenReturn(arena);
 		when(arenaToArenaCommand.convert(arena)).thenReturn(arenaCmd);
-		
+
 		// When
 		ArenaCommand arenaCmdOut = arenaService.editExistng(arenaCmd);
-		
+
 		// Then
 		assertEquals(TEST_NAME, arenaCmdOut.getName());
 		assertEquals(TEST_CITY, arenaCmdOut.getCity());
@@ -311,6 +312,56 @@ public class ArenaServiceImplTest
 		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
 		verify(arenaRepository, times(1)).edit(arena);
 		verify(arenaToArenaCommand, times(1)).convert(arena);
+
+	}
+
+	@Test
+	public void getCommandByIdNullTest() throws Exception
+	{
+		// Given
+		ArenaCommand arenaCmd = new ArenaCommand();
+		Arena arena = new Arena();
+
+		when(arenaRepository.getById(anyInt())).thenReturn(arena);
+		when(arenaToArenaCommand.convert(arena)).thenReturn(arenaCmd);
+
+		// When
+		ArenaCommand arenaCmdOut = arenaService.getCommandById(null);
+
+		// Then
+		assertNull(arenaCmdOut);
+		verify(arenaRepository, times(0)).getById(anyInt());
+		verify(arenaToArenaCommand, times(0)).convert(any());
+	}
+
+	@Test
+	public void getCommandByIdTest() throws Exception
+	{
+		// Given
+		ArenaCommand arenaCmd = new ArenaCommand();
+		arenaCmd.setName(TEST_NAME);
+		arenaCmd.setCity(TEST_CITY);
+		arenaCmd.setCountry(TEST_COUNTRY);
+		arenaCmd.setId(TEST_ID);
+
+		Arena arena = new Arena();
+		arena.setName(TEST_NAME);
+		arena.setCity(TEST_CITY);
+		arena.setCountry(TEST_COUNTRY);
+		arena.setId(TEST_ID);
 		
+		when(arenaRepository.getById(anyInt())).thenReturn(arena);
+		when(arenaToArenaCommand.convert(arena)).thenReturn(arenaCmd);
+		
+		// When
+		ArenaCommand arenaCmdOut = arenaService.getCommandById(TEST_ID);
+		
+		// Then
+		assertEquals(TEST_NAME, arenaCmdOut.getName());
+		assertEquals(TEST_CITY, arenaCmdOut.getCity());
+		assertEquals(TEST_CITY, arenaCmdOut.getCity());
+		assertEquals(TEST_ID, arenaCmdOut.getId());
+		verify(arenaRepository, times(1)).getById(TEST_ID);
+		verify(arenaToArenaCommand, times(1)).convert(arena);
 	}
 }

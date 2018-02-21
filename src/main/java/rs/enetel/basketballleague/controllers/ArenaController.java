@@ -2,6 +2,7 @@ package rs.enetel.basketballleague.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,15 +27,16 @@ public class ArenaController
 		this.arenaService = arenaService;
 	}
 
+	@GetMapping
 	@RequestMapping("/arenas")
 	public String showAll(Model model)
 	{
-
 		model.addAttribute("arenas", arenaRepository.all());
 
 		return "arenas/all";
 	}
 
+	@GetMapping
 	@RequestMapping("/arenas/{id}/show")
 	public String showById(@PathVariable int id, Model model)
 	{
@@ -44,6 +46,7 @@ public class ArenaController
 		return "arenas/show";
 	}
 
+	@GetMapping
 	@RequestMapping("/arenas/new")
 	public String showFormForNewObject(Model model)
 	{
@@ -53,6 +56,7 @@ public class ArenaController
 		return "arenas/save";
 	}
 
+	@GetMapping
 	@RequestMapping("arenas/{id}/edit")
 	public String showFormToUpdateObject(@PathVariable int id, Model model)
 	{
@@ -105,6 +109,7 @@ public class ArenaController
 		return "redirect:/arenas/" + savedCommand.getId() + "/show";
 	}
 
+	@GetMapping
 	@RequestMapping("arenas/{id}/deactivate")
 	public String deactivateObject(@PathVariable int id)
 	{
