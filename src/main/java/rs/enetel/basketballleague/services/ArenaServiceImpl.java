@@ -55,6 +55,22 @@ public class ArenaServiceImpl implements ArenaService
 
 	@Transactional
 	@Override
+	public ArenaCommand editExistng(ArenaCommand arenaCmd) throws Exception
+	{
+		Arena arenaToEdit = arenaCommandToArena.convert(arenaCmd);
+
+		if (arenaToEdit == null)
+		{
+			return null;
+		}
+
+		arenaCmd = arenaToArenaCommand.convert(arenaRepository.edit(arenaToEdit));
+
+		return arenaCmd;
+	}
+
+	@Transactional
+	@Override
 	public ArenaCommand deactivate(ArenaCommand arenaCmd) throws Exception
 	{
 		Arena arenaToDeactivate = arenaCommandToArena.convert(arenaCmd);
@@ -62,12 +78,26 @@ public class ArenaServiceImpl implements ArenaService
 		{
 			return null;
 		}
-		
+
 		arenaToDeactivate.setActive(false);
 		arenaRepository.edit(arenaToDeactivate);
-		
+
 		arenaCmd.setActive(false);
 		return arenaCmd;
 	}
 
+	@Transactional
+	@Override
+	public ArenaCommand getCommandById(Integer id) throws Exception
+	{
+		if (id == null)
+		{
+			return null;
+		}
+		
+		Arena arena = arenaRepository.getById(id);
+		ArenaCommand arenaCmd = arenaToArenaCommand.convert(arena);
+		
+		return arenaCmd;
+	}
 }

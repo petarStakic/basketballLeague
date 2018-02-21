@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ArenaCommand
 {
-	private int id;
+	private Integer id;
 	private String city;
 	private String country;
 	private String timeZone;

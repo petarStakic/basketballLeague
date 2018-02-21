@@ -7,6 +7,10 @@ table {
 	border-collapse: collapse;
 }
 
+input[type="submit"], button {
+	margin:6px;
+}
+
 .clickableRow {
 	cursor:pointer;
 }

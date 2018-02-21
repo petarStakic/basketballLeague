@@ -12,7 +12,7 @@ import rs.enetel.basketballleague.dao.Arena;
 
 public class ArenaToArenaCommandTest
 {
-	public static final int ID = 1;
+	public static final Integer ID = 1;
 	public static final String CITY = "Test City";
 	public static final String COUNTRY = "Test Country";
 	public static final String TZID = "GPGPG";

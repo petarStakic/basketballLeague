@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 public class ArenaServiceImplTest
 {
-	public static final int TEST_ID = 11;
+	public static final Integer TEST_ID = 11;
 	public static final String TEST_NAME = "Test Arena";
 	public static final String TEST_CITY = "Test City";
 	public static final String TEST_COUNTRY = "Test Country";
@@ -244,11 +244,73 @@ public class ArenaServiceImplTest
 		arenaCmd.setCity(TEST_CITY);
 		arenaCmd.setCountry(TEST_COUNTRY);
 		arenaCmd.setActive(true);
-		
+
 		Arena arena = new Arena();
 		arena.setName(TEST_NAME);
 		arena.setCity(TEST_CITY);
 		arena.setCountry(TEST_COUNTRY);
 		arena.setActive(true);
+		
+		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
+		
+		// When
+		ArenaCommand arenaCmdOut = arenaService.deactivate(arenaCmd);
+		
+		// Then
+		assertEquals(false, arenaCmdOut.getActive());
+		assertEquals(false, arena.isActive());
+		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
+		verify(arenaRepository, times(1)).edit(arena);	
+	}
+
+	@Test
+	public void editExistingNullTest() throws Exception
+	{
+		// Given
+		ArenaCommand arenaCmdNull = null;
+		Arena arenaNull = null;
+		
+		when(arenaCommandToArena.convert(arenaCmdNull)).thenReturn(arenaNull);
+		
+		// When
+		ArenaCommand arenaCmdOut = arenaService.editExistng(arenaCmdNull);
+		
+		// Then
+		assertNull(arenaCmdOut);
+		verify(arenaCommandToArena, times(1)).convert(arenaCmdNull);
+		verify(arenaRepository, times(0)).edit(any());
+		verify(arenaToArenaCommand, times(1)).convert(any());
+	}
+	
+	@Test
+	public void editExistingTest() throws Exception
+	{
+		// Given
+		ArenaCommand arenaCmd = new ArenaCommand();
+		arenaCmd.setName(TEST_NAME);
+		arenaCmd.setCity(TEST_CITY);
+		arenaCmd.setCountry(TEST_COUNTRY);
+		
+		Arena arena = new Arena();
+		arena.setName(TEST_NAME);
+		arena.setCity(TEST_CITY);
+		arena.setCountry(TEST_COUNTRY);
+		
+		when(arenaCommandToArena.convert(arenaCmd)).thenReturn(arena);
+		when(arenaRepository.edit(arena)).thenReturn(arena);
+		when(arenaToArenaCommand.convert(arena)).thenReturn(arenaCmd);
+		
+		// When
+		ArenaCommand arenaCmdOut = arenaService.editExistng(arenaCmd);
+		
+		// Then
+		assertEquals(TEST_NAME, arenaCmdOut.getName());
+		assertEquals(TEST_CITY, arenaCmdOut.getCity());
+		assertEquals(TEST_CITY, arenaCmdOut.getCity());
+		assertNull(arenaCmdOut.getId());
+		verify(arenaCommandToArena, times(1)).convert(arenaCmd);
+		verify(arenaRepository, times(1)).edit(arena);
+		verify(arenaToArenaCommand, times(1)).convert(arena);
+		
 	}
 }

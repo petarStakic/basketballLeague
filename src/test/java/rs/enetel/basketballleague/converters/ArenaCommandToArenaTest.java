@@ -12,7 +12,7 @@ import rs.enetel.basketballleague.dao.Arena;
 
 public class ArenaCommandToArenaTest
 {
-	public static final int ID = 1;
+	public static final Integer ID = 1;
 	public static final String CITY = "Test City";
 	public static final String COUNTRY = "Test Country";
 	public static final String TZID = "GPGPG";
@@ -47,7 +47,7 @@ public class ArenaCommandToArenaTest
 		ArenaCommand arenaCommand = new ArenaCommand();
 		arenaCommand.setActive(WRAP_ACTIVE);
 
-		assertEquals(0, converter.convert(arenaCommand).getId());
+		assertNull(converter.convert(arenaCommand).getId());
 
 		assertEquals(true, converter.convert(arenaCommand).isActive());
 	}

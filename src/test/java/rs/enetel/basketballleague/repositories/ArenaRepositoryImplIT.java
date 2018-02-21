@@ -23,7 +23,7 @@ import rs.enetel.basketballleague.rsextractors.IntegerResultSetExtractor;
 @SpringBootTest
 public class ArenaRepositoryImplIT
 {
-	public static final int EXISTING_ID = 11;
+	public static final Integer EXISTING_ID = 11;
 	public static final String TEST_NAME = "Test Arena";
 	public static final String TEST_CITY = "Test City";
 	public static final String TEST_COUNTRY = "Test Country";

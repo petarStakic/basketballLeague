@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 
 import rs.enetel.basketballleague.dao.Arena;
 import rs.enetel.basketballleague.repositories.ArenaRepository;
+import rs.enetel.basketballleague.services.ArenaService;
 
 public class ArenaControllerTest
 {
@@ -37,6 +38,9 @@ public class ArenaControllerTest
 	ArenaRepository arenaRepository;
 	
 	@Mock
+	ArenaService arenaService;
+	
+	@Mock
 	Model model;
 
 	@Before
@@ -44,7 +48,7 @@ public class ArenaControllerTest
 	{
 		MockitoAnnotations.initMocks(this);
 
-		arenaController = new ArenaController(arenaRepository);
+		arenaController = new ArenaController(arenaRepository, arenaService);
 	}
 	
 	@Test

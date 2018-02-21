@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class Arena
 {
-	private int id;
+	private Integer id;
 	private String city;
 	private String country;
 	private String timeZone; // razmisliti o vremenskim zonama

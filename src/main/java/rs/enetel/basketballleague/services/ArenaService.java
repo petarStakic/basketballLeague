@@ -8,4 +8,8 @@ public interface ArenaService
 	
 	ArenaCommand deactivate(ArenaCommand arenaCmd) throws Exception;
 
+	ArenaCommand editExistng(ArenaCommand arenaCmd) throws Exception;
+
+	ArenaCommand getCommandById(Integer id) throws Exception;
+
 }
