@@ -1,0 +1,1 @@
+SELECT competition_formats_s.nextval FROM dual

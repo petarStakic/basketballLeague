@@ -14,6 +14,7 @@ import rs.enetel.basketballleague.repositories.ArenaRepository;
 import rs.enetel.basketballleague.services.ArenaService;
 
 @Controller
+@RequestMapping("/arenas")
 @Slf4j
 public class ArenaController
 {
@@ -28,7 +29,7 @@ public class ArenaController
 	}
 
 	@GetMapping
-	@RequestMapping("/arenas")
+	@RequestMapping({"","/"})
 	public String showAll(Model model)
 	{
 		model.addAttribute("arenas", arenaRepository.all());
@@ -37,7 +38,7 @@ public class ArenaController
 	}
 
 	@GetMapping
-	@RequestMapping("/arenas/{id}/show")
+	@RequestMapping("/{id}/show")
 	public String showById(@PathVariable int id, Model model)
 	{
 
@@ -47,7 +48,7 @@ public class ArenaController
 	}
 
 	@GetMapping
-	@RequestMapping("/arenas/new")
+	@RequestMapping("/new")
 	public String showFormForNewObject(Model model)
 	{
 
@@ -57,7 +58,7 @@ public class ArenaController
 	}
 
 	@GetMapping
-	@RequestMapping("arenas/{id}/edit")
+	@RequestMapping("/{id}/edit")
 	public String showFormToUpdateObject(@PathVariable int id, Model model)
 	{
 		try
@@ -74,7 +75,7 @@ public class ArenaController
 	}
 
 	@PostMapping
-	@RequestMapping("arenas/save")
+	@RequestMapping("/save")
 	public String insertOrUpdateObject(@ModelAttribute ArenaCommand command)
 	{
 		ArenaCommand savedCommand = null;
@@ -110,7 +111,7 @@ public class ArenaController
 	}
 
 	@GetMapping
-	@RequestMapping("arenas/{id}/deactivate")
+	@RequestMapping("/{id}/deactivate")
 	public String deactivateObject(@PathVariable int id)
 	{
 		try

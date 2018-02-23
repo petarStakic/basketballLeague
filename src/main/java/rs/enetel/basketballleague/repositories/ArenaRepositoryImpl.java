@@ -27,7 +27,6 @@ public class ArenaRepositoryImpl implements ArenaRepository
 	@Override
 	public Arena add(Arena arena) throws Exception
 	{
-		// TODO Auto-generated method stub
 		String nextvalSql = ResourceHelper.getResourceText("/sql/arenas/sequence_next.sql");
 		String insertSql = ResourceHelper.getResourceText("/sql/arenas/add.sql");
 

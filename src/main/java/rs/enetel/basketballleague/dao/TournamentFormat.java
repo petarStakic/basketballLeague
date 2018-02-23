@@ -7,11 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class League
+public class TournamentFormat
 {
 	private Integer id;
-	private String name;
-	private LeagueGeoScope geoScope;
-	private LeagueType type;
-	private List<Season> seasons;
+	private String description;
+	private List<TournamentPhase> phases;
 }

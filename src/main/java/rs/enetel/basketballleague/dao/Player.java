@@ -12,4 +12,5 @@ public class Player extends Person
 	private int id;
     private Double height;
     private List<PlayerPosition> positions;
+    private List<Team> teams;
 }
