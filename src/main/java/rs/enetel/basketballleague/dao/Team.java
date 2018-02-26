@@ -11,7 +11,9 @@ public class Team
 {
 	private Integer id;
 	private String name;
+	private String country;
 	private String city;
-	private List<PlayerTeamRecord> team;
-	private String coach;
+	private Boolean national;
+	private List<PlayerTeamContract> team;
+	private List<Coach> coaches;
 }

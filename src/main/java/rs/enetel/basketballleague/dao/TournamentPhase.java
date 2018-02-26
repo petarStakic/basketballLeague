@@ -10,11 +10,12 @@ import lombok.Setter;
 @Setter
 public class TournamentPhase
 {
-	private Integer id;
+	private Long id;
+	private Season season;
 	private Integer phaseNum;
-	private Integer phaseName;
+	private String phaseName;
 	private Date startDate;
 	private Date endDate;
 	private CompetitionFormat format;
-	private List<Team> teams;
+	private List<TeamSeasonRanking> teams;
 }

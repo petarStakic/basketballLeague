@@ -8,5 +8,6 @@ import lombok.Setter;
 public class TeamSeasonRanking
 {
 	private Team team;
+	private Season season;
 	private Double ranking;
 }

@@ -15,7 +15,6 @@ public class CompetitionFormatRowMapper implements RowMapper<CompetitionFormat>
 	@Override
 	public CompetitionFormat mapRow(ResultSet results, int row) throws SQLException
 	{
-		// TODO Auto-generated method stub
 		CompetitionFormat competitionFormat = new CompetitionFormat();
 		
 		competitionFormat.setId(results.getInt("ID"));

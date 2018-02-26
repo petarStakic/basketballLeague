@@ -26,9 +26,9 @@ public class CompetitionFormatRepositoryImpl implements CompetitionFormatReposit
 	public CompetitionFormat add(CompetitionFormat competitionFormat) throws Exception
 	{
 		String nextvalSql = ResourceHelper.getResourceText(
-				"leagues/seasons/tournament_formats/tournament_phases/competition_formats/sequence_next.sql");
+				"/sql/leagues/seasons/tournament_formats/tournament_phases/competition_formats/sequence_next.sql");
 		String insertSql = ResourceHelper
-				.getResourceText("leagues/seasons/tournament_formats/tournament_phases/competition_formats/");
+				.getResourceText("/sql/leagues/seasons/tournament_formats/tournament_phases/competition_formats/");
 
 		int id = jdbcTemplate.query(nextvalSql, new IntegerResultSetExtractor());
 		competitionFormat.setId(id);
@@ -50,36 +50,63 @@ public class CompetitionFormatRepositoryImpl implements CompetitionFormatReposit
 				new Object[] { id, competitionFormat.getType(), competitionFormat.getDescription(),
 						competitionFormat.getMatchesPerFixture(), numberOfGroups, tiebraker });
 
-		if(rowsAffected != 1)
+		if (rowsAffected != 1)
 		{
 			log.debug("Error inserting competition format. Rows affected: " + rowsAffected + ", expected: 1");
 			throw new Exception("Error inserting competition format. Rows affected: " + rowsAffected + ", expected: 1");
 		}
-		
+
 		return competitionFormat;
 	}
 
 	@Override
 	public CompetitionFormat getById(int id) throws Exception
 	{
-		String sql = ResourceHelper.getResourceText("leagues/seasons/tournament_formats/tournament_phases/competition_formats/by_id.sql");
-		
-		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new CompetitionFormatRowMapper());
+		String sql = ResourceHelper
+				.getResourceText("/sql/leagues/seasons/tournament_formats/tournament_phases/competition_formats/by_id.sql");
+
+		return jdbcTemplate.queryForObject(sql, new Object[] { id }, new CompetitionFormatRowMapper());
 	}
 
 	@Override
 	public List<CompetitionFormat> all() throws Exception
 	{
-		String sql = ResourceHelper.getResourceText("leagues/seasons/tournament_formats/tournament_phases/competition_formats/all.sql");
-		
+		String sql = ResourceHelper
+				.getResourceText("/sql/leagues/seasons/tournament_formats/tournament_phases/competition_formats/all.sql");
+
 		return jdbcTemplate.query(sql, new CompetitionFormatRowMapper());
 	}
 
 	@Override
 	public CompetitionFormat edit(CompetitionFormat competitionFormat) throws Exception
 	{
-		// TODO Auto-generated method stub
-		return null;
+		String sql = ResourceHelper
+				.getResourceText("/sql/leagues/seasons/tournament_formats/tournament_phases/competition_formats/edit.sql");
+
+		Integer numberOfGroups = null;
+		String tiebraker = null;
+
+		if (competitionFormat instanceof GroupCompetitionFormat)
+		{
+			numberOfGroups = ((GroupCompetitionFormat) competitionFormat).getNumberOfGroups();
+		}
+
+		if (competitionFormat instanceof EliminationCompetitionFormat)
+		{
+			tiebraker = ((EliminationCompetitionFormat) competitionFormat).getTiebraker();
+		}
+
+		int rowsAffected = jdbcTemplate.update(sql,
+				new Object[] { competitionFormat.getType(), competitionFormat.getDescription(),
+						competitionFormat.getMatchesPerFixture(), numberOfGroups, tiebraker });
+
+		if (rowsAffected != 1)
+		{
+			log.debug("Error updating competition format. Rows affected: " + rowsAffected + ", expected: 1");
+			throw new Exception("Error updating competition format. Rows affected: " + rowsAffected + ", expected: 1");
+		}
+
+		return competitionFormat;
 	}
 
 }
