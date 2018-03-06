@@ -29,6 +29,7 @@ public class ArenaCommandToArena implements Converter<ArenaCommand, Arena>
 		arena.setTimeZone(source.getTimeZone());
 		arena.setName(source.getName());
 		arena.setCapacity(source.getCapacity());
+		arena.setImage(source.getImage());
 
 		Boolean active = source.getActive();
 		if (active != null)

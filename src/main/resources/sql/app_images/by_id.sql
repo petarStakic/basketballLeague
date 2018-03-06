@@ -1,0 +1,1 @@
+SELECT id, description, content, type_extension FROM app_images WHERE id=?

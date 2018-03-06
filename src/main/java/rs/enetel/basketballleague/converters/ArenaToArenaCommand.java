@@ -30,7 +30,8 @@ public class ArenaToArenaCommand implements Converter<Arena, ArenaCommand>
 		arenaCommand.setName(source.getName());
 		arenaCommand.setCapacity(source.getCapacity());
 		arenaCommand.setActive(source.isActive());
-
+		arenaCommand.setImage(source.getImage());
+		
 		return arenaCommand;
 	}
 

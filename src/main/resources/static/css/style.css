@@ -11,6 +11,10 @@ input[type="submit"], button {
 	margin:6px;
 }
 
+input[type="file"] {
+	overflow:hidden;
+}
+
 .clickableRow {
 	cursor:pointer;
 }

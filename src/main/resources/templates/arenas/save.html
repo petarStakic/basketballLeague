@@ -11,7 +11,8 @@
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"
 	th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}"></script>
-<script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/static/js/script.js}" src="../../static/js/script.js"></script>
 <link rel="stylesheet" type="text/css" href="../../static/css/style.css"
 	th:href="@{/static/css/style.css}">
 <meta charset="UTF-8" />
@@ -26,24 +27,36 @@
 						<h1 class="card-title">Save Arena</h1>
 					</div>
 					<div class="card-body">
-						<form th:object="${arena}" th:action="@{/arenas/save}">
+						<form th:object="${arena}" th:action="@{/arenas/save}"
+							method="post" enctype="multipart/form-data" >
 							<input type="hidden" th:field="*{id}" />
+							<input type="hidden" th:field="*{imageChanged}" id="changeFlag"/>
 							<div class="form-row">
-								<div class="col-md-7 form-group">
+								<div class="col-md-6 form-group">
 									<label>Name: </label> <input type="text" class="form-control"
 										th:field="*{name}" /> <label>City: </label> <input
 										type="text" class="form-control" th:field="*{city}" /> <label>Country:
 									</label> <input type="text" class="form-control" th:field="*{country}" />
-								</div>
-								<div class="col-md-5 form-group">
 									<label>Time Zone: </label> <input type="text"
 										class="form-control" th:field="*{timeZone}" /> <label>Capacity:
 									</label> <input type="number" class="form-control"
-										th:field="*{capacity}" /> 
+										th:field="*{capacity}" />
+								</div>
+								<div class="col-md-6 form-group">
+									<div class="form-row">
+										<div class="col-md-10 offset-md-1">
+											<img class="img-fluid" id="form-img" 
+												src="C:\Users\Petar\Pictures\es-default-large_default.jpg"
+												th:src="@{'/img/' + *{image.id} + '/show'}" />
+										</div>
+										<div class="col-md-11 offset-md-1 form-group">
+											<label>Arena Photo: </label> <input type="file" name="img-file" id="imgFileControl"
+												class="form-control" th:onchange="'javascript:formImgChanged()'"/>
+										</div>
+									</div>
 									<div class="form-row">
 										<div class="col-md-3 offset-md-9">
-											<input class="btn btn-primary"
-											type="submit" value="Save">
+											<input class="btn btn-primary" type="submit" value="Save">
 										</div>
 									</div>
 								</div>

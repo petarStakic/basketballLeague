@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
+import rs.enetel.basketballleague.dao.AppImage;
 import rs.enetel.basketballleague.dao.Arena;
 
 public class ArenaResultSetExtractor implements ResultSetExtractor<Arena>
@@ -18,6 +19,7 @@ public class ArenaResultSetExtractor implements ResultSetExtractor<Arena>
 		{
 
 			Arena arena = new Arena();
+			AppImage img = new AppImage();
 
 			arena.setId(result.getInt("ID"));
 			arena.setCountry(result.getString("COUNTRY"));
@@ -36,6 +38,9 @@ public class ArenaResultSetExtractor implements ResultSetExtractor<Arena>
 			{
 				arena.setActive(true);
 			}
+			
+			img.setId(result.getInt("IMAGE_ID"));
+			arena.setImage(img);
 
 			return arena;
 		}

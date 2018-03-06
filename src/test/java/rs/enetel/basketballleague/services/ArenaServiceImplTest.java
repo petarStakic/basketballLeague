@@ -9,6 +9,7 @@ import rs.enetel.basketballleague.commands.ArenaCommand;
 import rs.enetel.basketballleague.converters.ArenaCommandToArena;
 import rs.enetel.basketballleague.converters.ArenaToArenaCommand;
 import rs.enetel.basketballleague.dao.Arena;
+import rs.enetel.basketballleague.repositories.AppImageRepository;
 import rs.enetel.basketballleague.repositories.ArenaRepository;
 
 import static org.junit.Assert.assertEquals;
@@ -38,12 +39,15 @@ public class ArenaServiceImplTest
 
 	@Mock
 	ArenaToArenaCommand arenaToArenaCommand;
+	
+	@Mock
+	AppImageRepository appImageRepository;
 
 	@Before
 	public void setUp()
 	{
 		MockitoAnnotations.initMocks(this);
-		arenaService = new ArenaServiceImpl(arenaCommandToArena, arenaToArenaCommand, arenaRepository);
+		arenaService = new ArenaServiceImpl(arenaCommandToArena, arenaToArenaCommand, arenaRepository, appImageRepository);
 	}
 
 	@Test

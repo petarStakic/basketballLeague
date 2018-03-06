@@ -25,7 +25,7 @@ public class ArenaRepositoryImpl implements ArenaRepository
 
 	@Transactional
 	@Override
-	public Arena add(Arena arena) throws Exception
+	public Arena add(Arena arena) throws RuntimeException
 	{
 		String nextvalSql = ResourceHelper.getResourceText("/sql/arenas/sequence_next.sql");
 		String insertSql = ResourceHelper.getResourceText("/sql/arenas/add.sql");
@@ -37,12 +37,12 @@ public class ArenaRepositoryImpl implements ArenaRepository
 		arena.setActive(true);
 
 		int rowsAffected = jdbcTemplate.update(insertSql, new Object[] { id, arena.getCountry(), arena.getCity(),
-				arena.getTimeZone(), arena.getName(), arena.getCapacity() });
+				arena.getTimeZone(), arena.getName(), arena.getCapacity(), arena.getImage().getId() });
 
 		if (rowsAffected != 1)
 		{
 			log.debug("Error inserting an arena. Rows affected: " + rowsAffected + " instead of 1.");
-			throw new Exception("Number of rows affected is not equal to one!");
+			throw new RuntimeException("Number of rows affected is not equal to one!");
 		}
 		return arena;
 	}
@@ -69,14 +69,14 @@ public class ArenaRepositoryImpl implements ArenaRepository
 	}
 
 	@Override
-	public List<Arena> search(ArenaSearchCriteria criteria) throws Exception
+	public List<Arena> search(ArenaSearchCriteria criteria) throws RuntimeException
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Arena searchFor(String name, String city, String country) throws Exception
+	public Arena searchFor(String name, String city, String country) throws RuntimeException
 	{
 		String sql = ResourceHelper.getResourceText("/sql/arenas/by_name_city_country.sql");
 
@@ -86,7 +86,7 @@ public class ArenaRepositoryImpl implements ArenaRepository
 	}
 
 	@Override
-	public Arena edit(Arena arena) throws Exception
+	public Arena edit(Arena arena) throws RuntimeException
 	{
 		String sql = ResourceHelper.getResourceText("/sql/arenas/edit.sql");
 
@@ -95,19 +95,19 @@ public class ArenaRepositoryImpl implements ArenaRepository
 		int activeInt = arena.isActive() ? 1 : 0;
 
 		int rowsAffected = jdbcTemplate.update(sql, new Object[] { arena.getCountry(), arena.getCity(),
-				arena.getTimeZone(), arena.getName(), arena.getCapacity(), activeInt, arena.getId() });
+				arena.getTimeZone(), arena.getName(), arena.getCapacity(), activeInt, arena.getImage().getId(), arena.getId() });
 
 		if (rowsAffected != 1)
 		{
 			log.debug("Error updating an arena. Rows affected: " + rowsAffected + " instead of 1.");
-			throw new Exception("Number of rows affected is not equal to one!");
+			throw new RuntimeException("Number of rows affected is not equal to one!");
 		}
 
 		return arena;
 	}
 
 	@Override
-	public Arena remove(Arena arena) throws Exception
+	public Arena remove(Arena arena) throws RuntimeException
 	{
 		// TODO Auto-generated method stub
 		return null;

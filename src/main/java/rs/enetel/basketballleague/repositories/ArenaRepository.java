@@ -7,17 +7,17 @@ import rs.enetel.basketballleague.searchcrits.ArenaSearchCriteria;
 
 public interface ArenaRepository
 {
-	Arena add(Arena arena) throws Exception;
+	Arena add(Arena arena) throws RuntimeException;
 
 	List<Arena> all();
 
-	List<Arena> search(ArenaSearchCriteria criteria) throws Exception; //QUESTION: da li je ArenaSearchCriteria previse specificno za interface?
+	List<Arena> search(ArenaSearchCriteria criteria) throws RuntimeException; //QUESTION: da li je ArenaSearchCriteria previse specificno za interface?
 
-	Arena searchFor(String name, String city, String country) throws Exception;
+	Arena searchFor(String name, String city, String country) throws RuntimeException;
 
-	Arena edit(Arena arena) throws Exception;
+	Arena edit(Arena arena) throws RuntimeException;
 
-	Arena remove(Arena arena) throws Exception;
+	Arena remove(Arena arena) throws RuntimeException;
 
 	Arena getById(int id);
 

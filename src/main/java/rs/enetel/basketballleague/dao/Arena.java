@@ -14,4 +14,5 @@ public class Arena
 	private String name;
 	private Integer capacity;
 	private boolean active;
+	private AppImage image;
 }

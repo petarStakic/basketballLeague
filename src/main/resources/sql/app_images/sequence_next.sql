@@ -1,0 +1,1 @@
+SELECT app_images_s.nextval FROM dual
